@@ -52,15 +52,13 @@ function convert2mermaid(stringLine) {
       }
       duration = calculateTimeDifference(previousTime, currentSchedule);
       previousTime = currentSchedule;
-      // ret += `${contentBuffer}: task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
       addSchedule();
       break;
 
     case "**":
       addSchedule();
-      // ret += `${contentBuffer}: task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
       console.log(`%cpreviousTime:${previousTime}`, 'color:red');
-      ret += `Final milestone : milestone, taskZ,${previousTime.slice(0, 2) + ":" + previousTime.slice(2)},2m \n`
+      addSchedule("Final milestone")
       break;
 
     default:
@@ -73,13 +71,11 @@ function convert2mermaid(stringLine) {
   }
 }
 
-
-function addSchedule() {
-  if (doneCheck.checked) {
-    ret += `${contentBuffer}:done, task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
-  } else {
-    ret += `${contentBuffer}: task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
-  }
+function addSchedule(schedule = contentBuffer) {
+  ret += schedule + ":";
+  doneCheck.checked&&(ret+="done,");
+  (schedule!==contentBuffer)&&(ret+="milestone,");
+  ret += `task${taskAlias += 1},after task${taskAlias - 1},${(schedule!==contentBuffer)?2:duration}m \n`;
 }
 
 function intoConvertedText() {
@@ -101,4 +97,3 @@ function calculateTimeDifference(time1, time2) {
 
   return difference;
 }
-
