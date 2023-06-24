@@ -23,8 +23,8 @@ let duration = 0;
 let taskAlias = 0;
 let contentBuffer = ""
 
-const convertedText = document.querySelector('textArea[name="convertedText"]');
-const plainText = document.querySelector('textArea[name="plainText"]')
+const convertedText = document.querySelector('#convertedText');
+const plainText = document.querySelector('#plainText')
 const convertBtn = document.querySelector('#convertPlainTxt');
 
 
