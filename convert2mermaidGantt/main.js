@@ -79,7 +79,7 @@ function addSchedule(schedule = contentBuffer) {
 }
 
 function intoConvertedText() {
-  convertedText.value = `gantt\n   title ${doneCheck.checked ? "Done To Do" : "Planning To Do"}\n  	dateFormat HH:mm\n	axisFormat %H:%M\ntickInterval 10minute\nsection Section\n` + ret
+  convertedText.value = `gantt\n   title ${doneCheck.checked ? "Done To Do" : "Planning To Do"}\n  	dateFormat HH:mm\n	axisFormat %H:%M\ntickInterval 30minute\nsection Section\n` + ret
 }
 
 // 経過時間を取得
