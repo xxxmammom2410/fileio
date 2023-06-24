@@ -1,18 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-<!-- <input type="file"> -->
-<input type="file" name="file" id="file" />
-<br>
-<textarea name="convertedText">
-</textarea>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<script src="main.js"></script>
-</body>
+  <div>
+    <input type="file" name="file" id="file" />
+  </div>
+
+  
+    
+    
+    
+    <div>
+    <label for="plainText">
+      PlainText
+      <textarea name="plainText"> </textarea>
+    </label>
+    
+
+      <button id="convertPlainTxt">Plaintextをmermaidへ変換</button>
+    </div>
+      
+      <label for="convertedText">
+        ConvertedText
+        <textarea name="convertedText"> </textarea>
+      </label>
+      
+      
+    <script src="main.js"></script>
+  </input>
 </html>

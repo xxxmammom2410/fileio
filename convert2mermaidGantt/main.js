@@ -23,7 +23,25 @@ let duration = 0;
 let taskAlias = 0;
 let contentBuffer = ""
 
-const convertedText = document.querySelector('textArea[name="convertedText"]')
+const convertedText = document.querySelector('textArea[name="convertedText"]');
+const plainText = document.querySelector('textArea[name="plainText"]')
+const convertBtn = document.querySelector('#convertPlainTxt');
+
+
+
+convertBtn.addEventListener('click',() => {
+  // convertedText.value = '';
+  ret = '';
+  taskAlias = 0;
+  previousTime = '';
+  let lines = plainText.value.split(/\r\n|\n/);
+  for (let line = 0; line < lines.length; line++) {
+    convert2mermaid(lines[line]);
+  }
+  convertedText.value = "gantt\n    title A Gantt Diagram\n  	dateFormat HH:mm\n	axisFormat %H:%M\ntickInterval 10minute\nsection Section\n" + ret
+
+})
+
 
 document.getElementById('file').onchange = function () {
   let file = this.files[0];
@@ -33,7 +51,7 @@ document.getElementById('file').onchange = function () {
     for (let line = 0; line < lines.length; line++) {
       convert2mermaid(lines[line]);
     }
-    convertedText.textContent = "gantt\n    title A Gantt Diagram\n  	dateFormat HH:mm\n	axisFormat %H:%M\ntickInterval 10minute\nsection Section\n" + ret
+    convertedText.value = "gantt\n    title A Gantt Diagram\n  	dateFormat HH:mm\n	axisFormat %H:%M\ntickInterval 10minute\nsection Section\n" + ret
   };
   reader.readAsText(file);
 };
