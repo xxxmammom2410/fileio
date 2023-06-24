@@ -1,22 +1,3 @@
-// console.log("main.js")
-
-// const _input = document.querySelector('input');
-// console.log(_input);
-
-// _input.addEventListener('change',() => {
-//   console.log(_input.files[0]);
-//   const _file = _input.files[0];
-//   const reader = new FileReader();
-
-//   reader.addEventListener("load", () => {
-//     // this will then display a text file
-//     console.log(reader.result);
-//   }, false);
-
-//   reader.readAsText(_file);
-// })
-
-
 let ret = "";
 let previousTime = ""
 let duration = 0;
@@ -27,10 +8,9 @@ const convertedText = document.querySelector('#convertedText');
 const plainText = document.querySelector('#plainText')
 const convertBtn = document.querySelector('#convertPlainTxt');
 
+const doneCheck = document.querySelector('#isDone');
 
-
-convertBtn.addEventListener('click',() => {
-  // convertedText.value = '';
+convertBtn.addEventListener('click', () => {
   ret = '';
   taskAlias = 0;
   previousTime = '';
@@ -38,8 +18,7 @@ convertBtn.addEventListener('click',() => {
   for (let line = 0; line < lines.length; line++) {
     convert2mermaid(lines[line]);
   }
-  convertedText.value = "gantt\n    title A Gantt Diagram\n  	dateFormat HH:mm\n	axisFormat %H:%M\ntickInterval 10minute\nsection Section\n" + ret
-
+  intoConvertedText();
 })
 
 
@@ -51,7 +30,7 @@ document.getElementById('file').onchange = function () {
     for (let line = 0; line < lines.length; line++) {
       convert2mermaid(lines[line]);
     }
-    convertedText.value = "gantt\n    title A Gantt Diagram\n  	dateFormat HH:mm\n	axisFormat %H:%M\ntickInterval 10minute\nsection Section\n" + ret
+    intoConvertedText();
   };
   reader.readAsText(file);
 };
@@ -73,25 +52,38 @@ function convert2mermaid(stringLine) {
       }
       duration = calculateTimeDifference(previousTime, currentSchedule);
       previousTime = currentSchedule;
-      ret += `${contentBuffer}: task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
+      // ret += `${contentBuffer}: task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
+      addSchedule();
       break;
 
     case "**":
-      ret += `${contentBuffer}: task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
+      addSchedule();
+      // ret += `${contentBuffer}: task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
       console.log(`%cpreviousTime:${previousTime}`, 'color:red');
       ret += `Final milestone : milestone, taskZ,${previousTime.slice(0, 2) + ":" + previousTime.slice(2)},2m \n`
       break;
 
     default:
       if (stringLine) {
-
         // 作業内容をストアする
         contentBuffer = stringLine;
         console.log(contentBuffer);
-        // 皿洗い:wash,12:45,10m
       }
       break;
   }
+}
+
+
+function addSchedule() {
+  if (doneCheck.checked) {
+    ret += `${contentBuffer}:done, task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
+  } else {
+    ret += `${contentBuffer}: task${taskAlias += 1},after task${taskAlias - 1},${duration}m \n`
+  }
+}
+
+function intoConvertedText() {
+  convertedText.value = `gantt\n    ${doneCheck.checked ? "Done To Do" : "Planning To Do"}\n  	dateFormat HH:mm\n	axisFormat %H:%M\ntickInterval 10minute\nsection Section\n` + ret
 }
 
 // 経過時間を取得
